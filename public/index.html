@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Tracker — Simple & Powerful Task Management</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>TaskTracker</h1>
+          <span class="subtitle">REST API Demo & Control Panel</span>
+        </div>
+      </div>
+
+      <!-- Server Health Status Pill -->
+      <div class="health-badge" id="healthBadge" title="Server Status (GET /health)">
+        <span class="status-dot"></span>
+        <span class="status-text" id="healthStatusText">Checking API...</span>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="app-main">
+
+      <!-- Stats & Progress Card -->
+      <section class="stats-card">
+        <div class="stats-header">
+          <h2>Overview</h2>
+          <span class="progress-percentage" id="progressPercentage">0% Completed</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+        </div>
+        <div class="stats-metrics">
+          <div class="metric">
+            <span class="metric-value" id="statTotal">0</span>
+            <span class="metric-label">Total Tasks</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-value pending-color" id="statPending">0</span>
+            <span class="metric-label">Pending</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="metric">
+            <span class="metric-value completed-color" id="statCompleted">0</span>
+            <span class="metric-label">Completed</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Task Creator Form -->
+      <section class="create-task-card">
+        <form id="addTaskForm" class="add-task-form">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            <input 
+              type="text" 
+              id="taskTitleInput" 
+              placeholder="What needs to be done? Enter task title..." 
+              autocomplete="off"
+              maxlength="150"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary" id="addTaskBtn">
+            <span>Add Task</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </form>
+      </section>
+
+      <!-- Task Controls & List Section -->
+      <section class="tasks-section">
+        <!-- Controls: Filters & Search -->
+        <div class="tasks-controls">
+          <div class="filter-tabs">
+            <button class="tab-btn active" data-filter="all">All <span class="tab-count" id="countAll">0</span></button>
+            <button class="tab-btn" data-filter="pending">Pending <span class="tab-count" id="countPending">0</span></button>
+            <button class="tab-btn" data-filter="completed">Completed <span class="tab-count" id="countCompleted">0</span></button>
+          </div>
+
+          <div class="search-wrapper">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search tasks..." autocomplete="off" />
+          </div>
+        </div>
+
+        <!-- Task List Container -->
+        <div class="task-list" id="taskList">
+          <!-- Dynamically populated via app.js -->
+        </div>
+
+        <!-- Empty State (hidden by default) -->
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+          </div>
+          <h3 id="emptyTitle">No tasks yet</h3>
+          <p id="emptySubtitle">Add your first task above to get started!</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Powered by Express REST API &bull; In-Memory Data Store</p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Logic JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
