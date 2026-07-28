@@ -7,19 +7,22 @@ A lightweight Node.js REST API & Frontend Application built with Express for man
 - 🎨 **Modern Frontend UI**: Sleek dark-mode dashboard with real-time statistics, completion progress bar, filtering (All, Pending, Completed), live search, and toast notifications.
 - ⚡ **Express REST API**: Fast in-memory task operations.
 - 🩺 **Health Check**: `GET /health` endpoint for container health monitoring.
+- 🐳 **Docker Support**: Ready to be containerized using the provided `Dockerfile`.
 
 ---
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/) (v14 or higher) & [npm](https://www.npmjs.com/) (for local execution)
+- [Docker](https://www.docker.com/) (optional, for running in a container)
 
 ---
 
 ## Getting Started
 
-### 1. Installation
+### Local Setup
+
+#### 1. Installation
 
 Install dependencies by running:
 
@@ -27,7 +30,7 @@ Install dependencies by running:
 npm install
 ```
 
-### 2. Running the Server
+#### 2. Running the Server
 
 Start the application using:
 
@@ -46,7 +49,32 @@ To run on a custom port, pass the `PORT` environment variable:
 PORT=8080 npm start
 ```
 
-### 3. Accessing the Web UI
+---
+
+### Docker Setup
+
+#### 1. Build the Docker Image
+
+```bash
+docker build -t task-tracker .
+```
+
+#### 2. Run the Docker Container
+
+```bash
+docker run -d -p 3000:3000 --name task-tracker task-tracker
+```
+
+#### 3. Stop & Remove Container
+
+```bash
+docker stop task-tracker
+docker rm task-tracker
+```
+
+---
+
+### Accessing the Web UI
 
 Open your browser and navigate to:
 ```
